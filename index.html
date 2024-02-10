@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- displays site properly based on user's device -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+    <title>
+      Frontend Mentor | Newsletter sign-up form with success message
+    </title>
+
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: hsl(234, 29%, 20%);
+      }
+
+      .container {
+        display: flex;
+        align-items: center;
+        max-width: 800px;
+        height: 600px;
+        margin: 10% auto;
+        padding: 20px;
+        background-color: hsl(0, 0%, 100%);
+        border: 1px solid #ccc;
+        border-radius: 32px;
+      }
+
+      .form {
+        flex: 1;
+        margin: 0 10px;
+        height: 100%; 
+      }
+
+      .form-group {
+        margin-bottom: 20px;
+      }
+
+      .image-desktop {
+        margin: 10px 0;
+        max-width: 50%;
+        height: 100%; 
+      }
+
+      h2 {
+        font-size: 3.2rem;
+        color: hsl(234, 29%, 20%);
+        margin-top: 5rem;
+      }
+
+      p,
+      ul {
+        width: 90%;
+        font-size: small;
+        font-weight: lighter;
+        padding-left: 0;
+      }
+
+      li {
+        list-style-type: none;
+        display: inline-block;
+        line-height: 2;
+        white-space: nowrap;
+        cursor: pointer;
+      }
+
+      .icon-list {
+        width: 20px;
+        float: left;
+        margin-right: 10px;
+      }
+
+      label {
+        display: block;
+        margin-bottom: 5px;
+        font-weight: bold;
+        color: hsl(234, 29%, 20%);
+        font-size: 0.7rem;
+      }
+
+      input[type='email'] {
+        width: 90%;
+        padding: 8px;
+        border: 1px solid hsl(231, 7%, 60%);
+        border-radius: 5px;
+      }
+
+      button {
+        width: 90%;
+        padding: 10px 20px;
+        background-color: hsl(234, 29%, 20%);
+        color: #fff;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+      }
+
+      .success-message {
+        background-color: #dff0d8;
+        border: 1px solid #d0e9c6;
+        border-radius: 5px;
+        padding: 15px;
+      }
+
+      .hidden {
+        display: none;
+      }
+
+      .error {
+        color: red;
+        font-size: 0.8rem;
+        margin: 0px 20px 5px 0px;
+        float: right;
+        display: none; 
+      }
+
+      .form-group.invalid input[type='email'] {
+        border-color: red;
+      }
+
+      .form-group.invalid .error {
+        display: block;
+      }
+
+      input[type='email'].invalid {
+        border-color: red; 
+        background-color: #ffe6e6; 
+      }
+
+      input[type='email'].invalid::placeholder {
+        color: red; 
+      }
+
+      @media screen and (max-width: 600px) {
+        body {
+          background-color: hsl(0, 0%, 100%);
+        }
+
+        .container {
+          flex-direction: column;
+          max-width: auto;
+          height: auto;
+          margin: 0;
+          padding: 0;
+          border: none;
+          line-height: 3;
+        }
+
+        .hidden {
+          display: flex;
+          width: 100%;
+          margin: 0;
+        }
+
+        .image-desktop {
+          display: none;
+        }
+
+        h2 {
+          margin: 40px 0;
+          font-size: 3rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <img
+        src="./assets/images/illustration-sign-up-mobile.svg"
+        alt=""
+        class="image-mobile hidden"
+      />
+      <form id="newsletterForm" class="form" novalidate>
+        <h2>Stay updated!</h2>
+        <p>Join 60,000+ product managers receiving monthly updates on:</p>
+        <ul>
+          <li>
+            <img
+              src="./assets/images/icon-list.svg"
+              alt=""
+              class="icon-list"
+            />Product discovery and building what matters
+          </li>
+          <li>
+            <img
+              src="./assets/images/icon-list.svg"
+              alt=""
+              class="icon-list"
+            />Measuring to ensure updates are a success
+          </li>
+          <li>
+            <img
+              src="./assets/images/icon-list.svg"
+              alt=""
+              class="icon-list"
+            />And much more!
+          </li>
+        </ul>
+        <div class="form-group">
+          <label for="email">Email address</label>
+          <div class="error" id="emailError">valid email required</div>
+          <input
+            type="email"
+            id="email"
+            name="email"
+            placeholder="email@company.com"
+            required
+          />
+        </div>
+        <button type="submit">Subscribe to monthly newsletter</button>
+      </form>
+      <img
+        src="./assets/images/illustration-sign-up-desktop.svg"
+        alt="image-desktop"
+        class="image-desktop"
+      />
+    </div>
+    <script>
+      document
+        .getElementById('newsletterForm')
+        .addEventListener('submit', function (event) {
+          event.preventDefault(); 
+
+          const emailInput = document.getElementById('email');
+          const errorMessage = document.getElementById('emailError');
+
+          errorMessage.textContent = '';
+          emailInput.classList.remove('invalid');
+
+          const email = emailInput.value.trim();
+          const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+          if (!email) {
+            displayErrorMessage('Valid email required', 'email'); 
+            emailInput.classList.add('invalid'); 
+            emailInput.setAttribute('placeholder', 'Valid email required');
+            return; 
+          }
+          if (!emailRegex.test(email)) {
+            displayErrorMessage('Valid email required', 'email'); 
+            emailInput.classList.add('invalid');
+            return; 
+          }
+
+          window.location.href = `success.html?email=${encodeURIComponent(
+            email,
+          )}`;
+        });
+
+      function displayErrorMessage(message, inputId) {
+        const errorDiv = document.getElementById(inputId + 'Error');
+        errorDiv.textContent = message;
+      }
+    </script>
+  </body>
+</html>
+
+
